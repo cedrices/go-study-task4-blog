@@ -1,0 +1,12 @@
+db:
+  name: mysql
+  host: 127.0.0.1
+  username: dev_haos
+  password: haos123456
+  dbname: go_blog
+  port: 3306
+
+server:
+  port: 8080
+jwt:
+  secret: haos352586
