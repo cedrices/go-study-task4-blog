@@ -29,7 +29,7 @@ func RegisterUser(c *gin.Context) {
 	if err != nil {
 		util.JSON(c, http.StatusBadRequest, err.Error())
 	}
-	c.Header("Authorization", fmt.Sprintf("Bearer %s", util.GenJWT(&user)))
+	c.Header("Authorization", fmt.Sprintf("%s", util.GenJWT(&user)))
 	util.JSON(c, http.StatusOK, util.RegisterSuccess, result)
 }
 
@@ -40,7 +40,7 @@ func Login(c *gin.Context) {
 		util.JSON(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	users := service.FindUserByCondition(map[string]interface{}{"username": user.UserName})
+	users := service.FindUserByCondition(map[string]interface{}{"user_name": user.UserName})
 	if len(*users) == 0 {
 		util.JSON(c, http.StatusBadRequest, util.UserNotExist)
 		return
@@ -49,7 +49,7 @@ func Login(c *gin.Context) {
 		util.JSON(c, http.StatusBadRequest, util.PwdError)
 		return
 	}
-	c.Header("Authorization", fmt.Sprintf("Bearer %s", util.GenJWT(&user)))
+	c.Header("Authorization", fmt.Sprintf("%s", util.GenJWT(&user)))
 	util.JSON(c, http.StatusOK, util.LoginSuccess)
 }
 

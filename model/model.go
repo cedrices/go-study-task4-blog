@@ -6,7 +6,7 @@ type User struct {
 	gorm.Model
 	UserName string `gorm:"unique;not null" form:"username" json:"username" binding:"required,min=3,max=20"`
 	Password string `gorm:"not null" form:"password" json:"password" binding:"min=6,max=20"`
-	Email    string `gorm:"unique;not null" form:"email" json:"email" binding:"email"`
+	Email    string `gorm:"unique;not null" form:"email" json:"email" binding:"omitempty,email"`
 }
 
 type Post struct {
