@@ -10,11 +10,13 @@ type Response struct {
 }
 
 func JSON(c *gin.Context, code int, message string, data ...interface{}) {
+
 	resp := Response{Code: code, Message: message}
 	if len(data) > 0 {
 		resp.Data = data[0]
 	}
 	c.JSON(code, resp)
+	return
 }
 
 // 快捷函数

@@ -11,17 +11,17 @@ type User struct {
 
 type Post struct {
 	gorm.Model
-	Title   string `gorm:"not null" form:"title" json:"title" binding:"required,min=3,max=100"`
-	Content string `gorm:"type:text;not null" form:"content" json:"content" binding:"required,min=10"`
+	Title   string `gorm:"not null" form:"title" json:"title" binding:"omitempty,min=3,max=100"`
+	Content string `gorm:"type:text;not null" form:"content" json:"content" binding:"omitempty,min=1"`
 	UserID  uint   `gorm:"not null"`
-	User    User   `gorm:"foreignKey:UserID"`
+	User    User   `gorm:"foreignKey:UserID" binding:"omitempty"`
 }
 
 type Comment struct {
 	gorm.Model
-	Content string `gorm:"type:text;not null" form:"content" json:"content" binding:"required,min=1"`
-	PostID  uint   `gorm:"not null"`
-	Post    Post   `gorm:"foreignKey:PostID"`
+	Content string `gorm:"type:text;not null" form:"content" json:"content" binding:"omitempty,min=1"`
+	PostID  uint   `gorm:"not null"  form:"postId" json:"postId"`
+	Post    Post   `gorm:"foreignKey:PostID"  binding:"omitempty"`
 	UserID  uint   `gorm:"not null"`
-	User    User   `gorm:"foreignKey:UserID"`
+	User    User   `gorm:"foreignKey:UserID"  binding:"omitempty"`
 }

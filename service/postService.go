@@ -32,7 +32,7 @@ func UpdatePost(post *model.Post) error {
 }
 
 // 删除文章
-func DeletePost(id uint) error {
+func DeletePost(id uint64) error {
 	db := loadConfGetDb()
 	return db.Delete(&model.Post{}, id).Error
 }
@@ -44,9 +44,9 @@ func CreatePost(post *model.Post) error {
 }
 
 // 通过文章ID获取文章
-func FindPostsById(id uint) *model.Post {
+func FindPostsById(id uint) model.Post {
 	db := loadConfGetDb()
 	var model model.Post
 	db.First(&model, id)
-	return &model
+	return model
 }

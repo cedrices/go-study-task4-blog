@@ -13,7 +13,7 @@ var ignorePaths = []string{"/user/register", "/user/login"}
 // jwt 认证中间件
 func AuthFunc() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		valid := validContains(c.Request.URL.String())
+		valid := validContains(c.FullPath())
 		if !valid {
 			// 解析jwt
 			tokenStr := c.GetHeader("Authorization")
@@ -23,8 +23,8 @@ func AuthFunc() gin.HandlerFunc {
 				c.Abort()
 				return
 			}
-			user := service.GetUserById(claims.UserID)
-			if user.Password != "" && claims.Password != "" && strings.Compare(user.Password, claims.Password) != 0 {
+			user := service.GetUserById((*claims).UserID)
+			if user.Password != "" && (*claims).Password != "" && strings.Compare(user.Password, (*claims).Password) != 0 {
 				util.JSON(c, http.StatusUnauthorized, util.UserInfoError)
 				c.Abort()
 				return

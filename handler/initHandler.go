@@ -14,7 +14,7 @@ func InitController(api *gin.RouterGroup) {
 	//修改文章
 	api.PUT("post/update", UpdatePost)
 	//删除文章
-	api.POST("post/delete", DeletePost)
+	api.DELETE("post/delete/:id", DeletePost)
 	//发布评论
 	api.POST("comment/publish", PubComment)
 	//获取评论

@@ -41,14 +41,15 @@ func Login(c *gin.Context) {
 		return
 	}
 	users := service.FindUserByCondition(map[string]interface{}{"user_name": user.UserName})
-	if len(*users) == 0 {
+	if len(users) == 0 {
 		util.JSON(c, http.StatusBadRequest, util.UserNotExist)
 		return
 	}
-	if err := bcrypt.CompareHashAndPassword([]byte((*users)[0].Password), []byte(user.Password)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(users[0].Password), []byte(user.Password)); err != nil {
 		util.JSON(c, http.StatusBadRequest, util.PwdError)
 		return
 	}
+	user = users[0]
 	c.Header("Authorization", fmt.Sprintf("%s", util.GenJWT(&user)))
 	util.JSON(c, http.StatusOK, util.LoginSuccess)
 }

@@ -13,14 +13,17 @@ func PubComment(c *gin.Context) {
 	user, err := GetCurrUser(c)
 	if err != nil {
 		util.JSON(c, http.StatusBadRequest, err.Error(), false)
+		return
 	}
 	var comment model.Comment
 	if errs := c.ShouldBindJSON(&comment); errs != nil {
-		util.JSON(c, http.StatusBadRequest, errs.Error(), false)
+		util.JSON(c, http.StatusBadRequest, util.FilterEnglish(errs), false)
+		return
 	}
 	comment.UserID = user.ID
 	if errs := service.CreateComment(&comment); errs != nil {
 		util.JSON(c, http.StatusBadRequest, errs.Error(), false)
+		return
 	}
 	util.JSON(c, http.StatusOK, util.PublishCommentSuccess, true)
 }
@@ -28,8 +31,9 @@ func PubComment(c *gin.Context) {
 // 获取某篇文章的所有评论列表
 func FindCommentsByPostId(c *gin.Context) {
 	var comment model.Comment
-	if errs := c.ShouldBindJSON(&comment); errs != nil {
-		util.JSON(c, http.StatusBadRequest, errs.Error(), nil)
+	if errs := c.ShouldBindQuery(&comment); errs != nil {
+		util.JSON(c, http.StatusBadRequest, util.FilterEnglish(errs), nil)
+		return
 	}
 	comments := service.FindCommentsByPostId(comment.PostID)
 	util.JSON(c, http.StatusOK, util.GetCommentSuccess, comments)

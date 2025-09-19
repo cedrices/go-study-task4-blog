@@ -12,16 +12,16 @@ func RegisterUser(user *model.User) (bool, error) {
 }
 
 // 获取用户
-func GetUserById(id uint) *model.User {
+func GetUserById(id uint) model.User {
 	db := loadConfGetDb()
-	var user *model.User
-	db.First(user, id)
+	var user model.User
+	db.First(&user, id)
 	return user
 }
 
-func FindUserByCondition(kv map[string]interface{}) *[]model.User {
+func FindUserByCondition(kv map[string]interface{}) []model.User {
 	db := loadConfGetDb()
-	var user *[]model.User
+	var user []model.User
 	db.Where(kv).Find(&user)
 	return user
 }
